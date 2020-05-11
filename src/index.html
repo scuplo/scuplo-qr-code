@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ScuploQrCode Test Application</title>
+</head>
+<body>
+  <scuplo-qr-code id="scuplo"></scuplo-qr-code>
+  <script>
+      var element = document.getElementById("scuplo");
+      element.setAttribute("api-url", "https://api-test.scuplo.io");
+      element.setAttribute("tenant", "1");
+      element.setAttribute("session-id", "<fill in>");
+      element.setAttribute("token", "<fill in>");
+  </script>
+</body>
+</html>
