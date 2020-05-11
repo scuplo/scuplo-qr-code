@@ -1,0 +1,1 @@
+# scuplo-qr-code
