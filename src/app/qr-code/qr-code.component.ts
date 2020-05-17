@@ -25,6 +25,8 @@ export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
   public imageData: string;
   public amount: number;
 
+  private currentSessionIdentification: string;
+
   constructor(private qrCodeService: QrCodeService) {
   }
 
@@ -32,11 +34,7 @@ export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
     this.loading = true;
     this.amount = 0;
 
-    if (this.environment && this.tenant && this.sessionId && this.token) {
-      this.load();
-    }
-
-    // todo without access_token gives 500
+    this.load();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,19 +46,33 @@ export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private load() {
-    this.loading = true;
-    this.amount = 0;
+    if (this.environment && this.tenant && this.sessionId && this.token && this.hasCurrentSessionIdentificationChanged()) {
 
-    this.qrCodeService.startHubConnection(this.environment, this.token, () => this.onDocumentCreated());
+      this.setCurrentSessionIdentification();
 
-    this.qrCodeService.getSessionImageSrc(this.environment, this.tenant, this.sessionId, this.token)
-      .then(imageData => {
-        this.loading = false;
-        this.imageData = imageData;
-      });
+      this.loading = true;
+      this.amount = 0;
+
+      this.qrCodeService.startHubConnection(this.environment, this.token, () => this.onDocumentCreated());
+
+      this.qrCodeService.getSessionImageSrc(this.environment, this.tenant, this.sessionId, this.token)
+        .then(imageData => {
+          this.loading = false;
+          this.imageData = imageData;
+        });
+    }
   }
 
   private onDocumentCreated() {
     this.amount += 1;
+  }
+
+  private setCurrentSessionIdentification() {
+    this.currentSessionIdentification = this.environment + this.tenant + this.sessionId + this.token;
+  }
+
+  private hasCurrentSessionIdentificationChanged() {
+    const newSessionIdentification = this.environment + this.tenant + this.sessionId + this.token;
+    return this.currentSessionIdentification !== newSessionIdentification;
   }
 }
