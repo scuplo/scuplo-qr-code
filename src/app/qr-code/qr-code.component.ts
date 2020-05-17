@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { QrCodeService } from './qr-code.service';
+import { Environment } from './environment.model';
 
 @Component({
   selector: 'scuplo-qr-code',
@@ -9,6 +10,9 @@ import { QrCodeService } from './qr-code.service';
 export class QrCodeComponent implements OnInit, OnChanges {
 
   @Input()
+  public environment: Environment;
+
+  @Input()
   public tenant: string;
 
   @Input()
@@ -16,9 +20,6 @@ export class QrCodeComponent implements OnInit, OnChanges {
 
   @Input()
   public token: string;
-
-  @Input()
-  public apiUrl: string;
 
   public loading: boolean;
   public imageData: string;
@@ -31,7 +32,7 @@ export class QrCodeComponent implements OnInit, OnChanges {
     this.loading = true;
     this.amount = 0;
 
-    if (this.apiUrl && this.tenant && this.sessionId && this.token) {
+    if (this.environment && this.tenant && this.sessionId && this.token) {
       this.load();
     }
 
@@ -46,7 +47,7 @@ export class QrCodeComponent implements OnInit, OnChanges {
     this.loading = true;
     this.amount = 0;
 
-    this.qrCodeService.getSessionImageSrc(this.apiUrl, this.tenant, this.sessionId, this.token)
+    this.qrCodeService.getSessionImageSrc(this.environment, this.tenant, this.sessionId, this.token)
       .then(imageData => {
         this.loading = false;
         this.imageData = imageData;
