@@ -5,12 +5,11 @@
     "ng": "ng",
     "start": "ng serve --port 3000",
     "build": "ng build --prod --output-hashing=none",
-    "package": "jscat dist/scuplo-qr-code/runtime-es2015.js dist/scuplo-qr-code/polyfills-es2015.js dist/scuplo-qr-code/main-es2015.js dist/scuplo-qr-code/scripts.js > ./dist/scuplo-qr-code/package-es2015.js && jscat dist/scuplo-qr-code/runtime-es5.js dist/scuplo-qr-code/polyfills-es5.js dist/scuplo-qr-code/main-es5.js dist/scuplo-qr-code/scripts.js > ./dist/scuplo-qr-code/package-es5.js",
+    "package": "jscat dist/scuplo-qr-code/runtime.js dist/scuplo-qr-code/polyfills.js dist/scuplo-qr-code/main.js dist/scuplo-qr-code/scripts.js > ./dist/scuplo-qr-code/package.js",
     "bundle": "npm run build && npm run package",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "serve-bundle": "npm run bundle && http-server ./dist/scuplo-qr-code -p 3000"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
