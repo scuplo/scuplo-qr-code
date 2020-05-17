@@ -6,7 +6,7 @@ export class QrCodeService {
 
   constructor(private http: HttpClient) {}
 
-  getImageSrc(apiUrl: string, tenant: string, sessionId: string, token: string): Promise<any> {
+  getSessionImageSrc(apiUrl: string, tenant: string, sessionId: string, token: string): Promise<any> {
     const url = apiUrl + '/v1/' + tenant + '/active-sessions/' + sessionId + '/qrcode';
 
     const headers = new HttpHeaders({

@@ -20,29 +20,33 @@ export class QrCodeComponent implements OnInit, OnChanges {
   @Input()
   public apiUrl: string;
 
-  public imageData: string;
-
   public loading: boolean;
-  public qrCodeUrl: string;
+  public imageData: string;
+  public amount: number;
 
   constructor(private qrCodeService: QrCodeService) {
   }
 
   ngOnInit() {
     this.loading = true;
+    this.amount = 0;
+
+    if (this.apiUrl && this.tenant && this.sessionId && this.token) {
+      this.load();
+    }
+
     // todo without access_token gives 500
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.sessionData) {
-      // todo
-    }
+    this.load();
+  }
 
-    console.log('was changed');
-
+  private load() {
     this.loading = true;
+    this.amount = 0;
 
-    this.qrCodeService.getImageSrc(this.apiUrl, this.tenant, this.sessionId, this.token)
+    this.qrCodeService.getSessionImageSrc(this.apiUrl, this.tenant, this.sessionId, this.token)
       .then(imageData => {
         this.loading = false;
         this.imageData = imageData;
