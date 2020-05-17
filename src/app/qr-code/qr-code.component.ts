@@ -19,15 +19,15 @@ export class QrCodeComponent implements OnInit, OnChanges {
   @Input()
   public apiUrl: string;
 
+  public loading: boolean;
   public qrCodeUrl: string;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.loading = true;
     // todo without access_token gives 500
-    this.qrCodeUrl = this.apiUrl + '/v1/' + this.tenant + '/active-sessions/' + this.sessionId + '/qrcode?access_token=' + this.token;
-    console.log(this.qrCodeUrl);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -39,5 +39,7 @@ export class QrCodeComponent implements OnInit, OnChanges {
 
     this.qrCodeUrl = this.apiUrl + '/v1/' + this.tenant + '/active-sessions/' + this.sessionId + '/qrcode?token=' + this.token;
     console.log(this.qrCodeUrl);
+
+    this.loading = false;
   }
 }

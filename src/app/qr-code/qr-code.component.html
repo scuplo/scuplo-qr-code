@@ -1,2 +1,4 @@
-<p>qr-code works!</p>
-<img src="{{qrCodeUrl}}" alt="Scuplo session qrcode..." height="200px" width="200px"/>
+<div class="container">
+  <scuplo-loader *ngIf="!qrCodeUrl"></scuplo-loader>
+  <img *ngIf="qrCodeUrl" src="{{qrCodeUrl}}" alt="Scuplo session qrcode..." height="200px" width="200px"/>
+</div>

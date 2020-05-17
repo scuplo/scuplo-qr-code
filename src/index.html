@@ -7,11 +7,13 @@
 <body>
   <scuplo-qr-code id="scuplo"></scuplo-qr-code>
   <script>
+    setTimeout(() => {
       var element = document.getElementById("scuplo");
       element.setAttribute("api-url", "https://api-test.scuplo.io");
       element.setAttribute("tenant", "1");
       element.setAttribute("session-id", "<fill in>");
       element.setAttribute("token", "<fill in>");
+    }, 3000);
   </script>
 </body>
 </html>
