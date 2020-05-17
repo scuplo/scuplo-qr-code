@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ScuploQrCode Test Application</title>
+</head>
+<body>
+  <scuplo-qr-code id="scuplo"></scuplo-qr-code>
+  <button id="reload" onClick="reload()">Reload</button>
+  <script>
+    var load = (sessionId, token) => {
+      setTimeout(() => {
+        var element = document.getElementById("scuplo");
+        element.setAttribute("environment", "Testing");
+        element.setAttribute("tenant", "1");
+        element.setAttribute("session-id", sessionId);
+        element.setAttribute("token", token);
+      }, 3000);
+    };
+
+    var button = document.getElementById("reload");
+    button.onclick = () => load("", "");
+
+    load("", "");
+  </script>
+</body>
+</html>

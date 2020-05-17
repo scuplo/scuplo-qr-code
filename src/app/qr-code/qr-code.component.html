@@ -1,0 +1,7 @@
+<div class="container">
+  <scuplo-loader *ngIf="loading"></scuplo-loader>
+  <div *ngIf="!loading">
+    <img src="{{imageData}}" alt="Scuplo session qrcode..." height="200" width="200"/>
+    <div class="text">{{amount}} document(s)</div>
+  </div>
+</div>
