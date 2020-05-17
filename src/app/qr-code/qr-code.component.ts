@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { QrCodeService } from './qr-code.service';
 import { Environment } from './environment.model';
 
@@ -7,7 +7,7 @@ import { Environment } from './environment.model';
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.sass']
 })
-export class QrCodeComponent implements OnInit, OnChanges {
+export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   public environment: Environment;
@@ -28,7 +28,7 @@ export class QrCodeComponent implements OnInit, OnChanges {
   constructor(private qrCodeService: QrCodeService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loading = true;
     this.amount = 0;
 
@@ -39,18 +39,28 @@ export class QrCodeComponent implements OnInit, OnChanges {
     // todo without access_token gives 500
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.load();
+  }
+
+  ngOnDestroy(): void {
+    this.qrCodeService.stopHubConnection();
   }
 
   private load() {
     this.loading = true;
     this.amount = 0;
 
+    this.qrCodeService.startHubConnection(this.environment, this.token, () => this.onDocumentCreated());
+
     this.qrCodeService.getSessionImageSrc(this.environment, this.tenant, this.sessionId, this.token)
       .then(imageData => {
         this.loading = false;
         this.imageData = imageData;
       });
+  }
+
+  private onDocumentCreated() {
+    this.amount += 1;
   }
 }
