@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { QrCodeService } from './qr-code.service';
 
 @Component({
   selector: 'scuplo-qr-code',
@@ -19,10 +20,12 @@ export class QrCodeComponent implements OnInit, OnChanges {
   @Input()
   public apiUrl: string;
 
+  public imageData: string;
+
   public loading: boolean;
   public qrCodeUrl: string;
 
-  constructor() {
+  constructor(private qrCodeService: QrCodeService) {
   }
 
   ngOnInit() {
@@ -37,9 +40,12 @@ export class QrCodeComponent implements OnInit, OnChanges {
 
     console.log('was changed');
 
-    this.qrCodeUrl = this.apiUrl + '/v1/' + this.tenant + '/active-sessions/' + this.sessionId + '/qrcode?token=' + this.token;
-    console.log(this.qrCodeUrl);
+    this.loading = true;
 
-    this.loading = false;
+    this.qrCodeService.getImageSrc(this.apiUrl, this.tenant, this.sessionId, this.token)
+      .then(imageData => {
+        this.loading = false;
+        this.imageData = imageData;
+      });
   }
 }
