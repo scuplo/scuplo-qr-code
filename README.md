@@ -3,7 +3,8 @@
 ## Usage
 
 ```html
-<script src="package.js"></script>
+<script src="package-es2015.js" type="module"></script>
+<script src="package-es5.js" nomodule defer></script>
 ```
 
 ## Development server
