@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 3000",
-    "build": "ng build --prod --output-hashing=none",
+    "build": "ng build --prod --output-hashing=none --single-bundle=true",
     "package": "jscat dist/scuplo-qr-code/runtime-es2015.js dist/scuplo-qr-code/polyfills-es2015.js dist/scuplo-qr-code/main-es2015.js dist/scuplo-qr-code/scripts.js > ./dist/scuplo-qr-code/package-es2015.js && jscat dist/scuplo-qr-code/runtime-es5.js dist/scuplo-qr-code/polyfills-es5.js dist/scuplo-qr-code/main-es5.js dist/scuplo-qr-code/scripts.js > ./dist/scuplo-qr-code/package-es5.js",
     "bundle": "npm run build && npm run package",
     "test": "ng test",
@@ -44,6 +44,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "ngx-build-plus": "^9.0.6",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
