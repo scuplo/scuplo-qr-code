@@ -3,8 +3,8 @@
 ## Usage
 
 ```html
-<script src="package-es2015.js" type="module"></script>
-<script src="package-es5.js" nomodule defer></script>
+<script src="main-es2015.{hash}.js" type="module"></script>
+<script src="main-es5.{hash}.js" nomodule defer></script>
 ```
 
 ## Development server
@@ -13,4 +13,4 @@ Run `npm run start` for a dev server. Navigate to `http://localhost:3000/`. The 
 
 ## Bundle
 
-Run `npm run bundle` to build and bundle the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build` to build and bundle the project. The build artifacts will be stored in the `dist/` directory.
