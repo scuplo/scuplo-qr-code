@@ -1,5 +1,7 @@
 # ScuploQrCode
 
+QR integration component for the scuplo scanning app. For more information check [scuplo.io](https://scuplo.io). 
+
 ## Usage
 
 ```html
