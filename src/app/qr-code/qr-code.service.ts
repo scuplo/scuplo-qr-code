@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
-import { Environment } from './environment.model';
 
 @Injectable()
 export class QrCodeService {
@@ -12,10 +11,9 @@ export class QrCodeService {
     private http: HttpClient,
     private ngZone: NgZone) {}
 
-  public getSessionImageSrc(environment: Environment, tenant: string, sessionId: string, token: string): Promise<any> {
+  public getSessionImageSrc(baseApiUrl: string, tenant: string, sessionId: string, token: string): Promise<any> {
 
-    const apiUrl = this.getApiUrl(environment);
-    const url = apiUrl + '/v1/' + tenant + '/active-sessions/' + sessionId + '/qrcode';
+    const url = baseApiUrl + '/v1/' + tenant + '/sessions/' + sessionId + '/qrcode';
 
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + token
@@ -32,14 +30,12 @@ export class QrCodeService {
       });
   }
 
-  public startHubConnection(environment: Environment, token: string, onDocumentCreated: () => void) {
+  public startHubConnection(baseApiUrl: string, token: string, onDocumentCreated: () => void) {
 
     this.stopHubConnection();
 
-    const apiUrl = this.getApiUrl(environment);
-
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(apiUrl + '/hub', { accessTokenFactory: () => token })
+      .withUrl(baseApiUrl + '/hub', { accessTokenFactory: () => token })
       .build();
 
     this.hubConnection.on('DocumentCreated', (message) => {
@@ -57,11 +53,5 @@ export class QrCodeService {
       this.hubConnection.off('DocumentCreated');
       this.hubConnection.stop();
     }
-  }
-
-  private getApiUrl(environment: Environment) {
-    return environment === Environment.Testing
-      ? 'https://api-test.scuplo.io'
-      : 'https://api.scuplo.io';
   }
 }

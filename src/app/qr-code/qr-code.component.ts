@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { QrCodeService } from './qr-code.service';
-import { Environment } from './environment.model';
 
 @Component({
   selector: 'scuplo-qr-code',
@@ -10,7 +9,7 @@ import { Environment } from './environment.model';
 export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
-  public environment: Environment;
+  public baseApiUrl: string;
 
   @Input()
   public tenant: string;
@@ -46,16 +45,17 @@ export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private load() {
-    if (this.environment && this.tenant && this.sessionId && this.token && this.hasCurrentSessionIdentificationChanged()) {
+
+    if (this.baseApiUrl && this.tenant && this.sessionId && this.token && this.hasCurrentSessionIdentificationChanged()) {
 
       this.setCurrentSessionIdentification();
 
       this.loading = true;
       this.amount = 0;
 
-      this.qrCodeService.startHubConnection(this.environment, this.token, () => this.onDocumentCreated());
+      this.qrCodeService.startHubConnection(this.baseApiUrl, this.token, () => this.onDocumentCreated());
 
-      this.qrCodeService.getSessionImageSrc(this.environment, this.tenant, this.sessionId, this.token)
+      this.qrCodeService.getSessionImageSrc(this.baseApiUrl, this.tenant, this.sessionId, this.token)
         .then(imageData => {
           this.loading = false;
           this.imageData = imageData;
@@ -68,11 +68,11 @@ export class QrCodeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private setCurrentSessionIdentification() {
-    this.currentSessionIdentification = this.environment + this.tenant + this.sessionId + this.token;
+    this.currentSessionIdentification = this.baseApiUrl + this.tenant + this.sessionId + this.token;
   }
 
   private hasCurrentSessionIdentificationChanged() {
-    const newSessionIdentification = this.environment + this.tenant + this.sessionId + this.token;
+    const newSessionIdentification = this.baseApiUrl + this.tenant + this.sessionId + this.token;
     return this.currentSessionIdentification !== newSessionIdentification;
   }
 }
